@@ -110,7 +110,6 @@ def reset_user_password(username, admin_username):
 
     tk.Button(reset_window, text="Reset Password", command=submit_reset_password).grid(row=1, column=0, columnspan=2, pady=10)
 
-
 # Delete user
 def delete_user(username, admin_username):
     conn = sqlite3.connect('users.db')
@@ -173,6 +172,7 @@ def open_admin_dashboard(admin_username):
 
         role_window = tk.Toplevel(dashboard_window)
         role_window.title(f"Manage User: {username}")
+        role_window.geometry("200x150")
 
         tk.Label(role_window, text="New Role:").grid(row=0, column=0, padx=10, pady=10)
         new_role_var = tk.StringVar()
@@ -207,6 +207,7 @@ def open_dashboard(username, role):
     log_user_activity(username, "Login")
     dashboard_window = tk.Toplevel(root)
     dashboard_window.title(f"{role} Dashboard")
+    dashboard_window.geometry("500x300")
 
     tk.Label(dashboard_window, text=f"Welcome, {username}!", font=("Arial", 16)).pack(pady=10)
     tk.Label(dashboard_window, text=f"Role: {role}", font=("Arial", 12)).pack(pady=5)
@@ -239,6 +240,7 @@ def login():
         stored_password, role = result
         if hash_password(password) == stored_password:
             open_dashboard(username, role)
+
         else:
             messagebox.showerror("Login Failed", "Invalid password!")
     else:
@@ -247,15 +249,18 @@ def login():
 # GUI Setup
 setup_database()
 root = tk.Tk()
-root.title("Login System with Tracking")
+root.title("KDM Stores Login")
+root.geometry("300x150")
 
 # Login Screen
-tk.Label(root, text="Username:").grid(row=0, column=0, padx=10, pady=10)
+(tk.Label(root, text="Username:").grid(row=0, column=0, padx=10, pady=10))
 username_entry = tk.Entry(root)
+#username_entry.pack()
 username_entry.grid(row=0, column=1, padx=10, pady=10)
 
 tk.Label(root, text="Password:").grid(row=1, column=0, padx=10, pady=10)
 password_entry = tk.Entry(root, show="*")
+#password_entry.pack()
 password_entry.grid(row=1, column=1, padx=10, pady=10)
 
 tk.Button(root, text="Login", command=login).grid(row=2, column=0, columnspan=2, pady=10)
